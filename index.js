@@ -153,6 +153,27 @@ app.get("/players/:id", async (req, res) => {
   }
 });
 
+app.post("/combat", async (req, res) => {
+    const { player1, player2 } = req.body;
+  
+    try {
+      const player1Data = await pool.query("SELECT * FROM players WHERE id = $1", [
+        player1,
+      ]);
+      const player2Data = await pool.query("SELECT * FROM players WHERE id = $1", [
+        player2,
+      ]);
+  
+      const player1Stats = player1Data.rows[0];
+      const player2Stats = player2Data.rows[0];
+  
+      // ver o valor dos niveis
+      const nivel = (tributo1, tributo2) => {
+        const vencedorNivel = Math.max(0, tributo1.nível - tributo2.nível);
+        return vencedorNivel;
+      };
+  
+      
 
 
 
